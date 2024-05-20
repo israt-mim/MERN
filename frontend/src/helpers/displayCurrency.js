@@ -1,12 +1,14 @@
-const displayINRCurrency = (num) => {
-    const formatter = new Intl.NumberFormat('en-IN',{
-        style : "currency",
-        currency : 'INR',
-        minimumFractionDigits : 2
-    })
+const displayBDCurrency = (num) => {
+  const formatter = new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "BDT",
+    minimumFractionDigits: 2,
+  });
 
-    return formatter.format(num)
+  let formatted = formatter.format(num);
+  formatted = formatted.replaceAll("BDT", "৳");
 
-}
+  return formatted;
+};
 
-export default displayINRCurrency
+export default displayBDCurrency;

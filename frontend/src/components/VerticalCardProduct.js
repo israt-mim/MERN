@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import fetchCategoryWiseProduct from "../helpers/fetchCategoryWiseProduct";
-import displayINRCurrency from "../helpers/displayCurrency";
+import displayBDCurrency from "../helpers/displayCurrency";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import addToCart from "../helpers/addToCart";
@@ -100,11 +100,11 @@ const VerticalCardProduct = ({ category, heading }) => {
                     </p>
                     <div className="flex gap-3">
                       <p className="text-red-600 font-medium">
-                        {displayINRCurrency(product?.sellingPrice)}
+                        {displayBDCurrency(product?.sellingPrice)}
                       </p>
                       {product?.discount && (
                         <p className="text-slate-500 line-through">
-                          {displayINRCurrency(product?.price)}
+                          {displayBDCurrency(product?.price)}
                         </p>
                       )}
                     </div>

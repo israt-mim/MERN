@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import SummaryApi from "../common";
 import Context from "../context";
-import displayINRCurrency from "../helpers/displayCurrency";
+import displayBDCurrency from "../helpers/displayCurrency";
 import { MdDelete } from "react-icons/md";
 
 const Cart = () => {
@@ -155,10 +155,10 @@ const Cart = () => {
                       </p>
                       <div className="flex items-center justify-between">
                         <p className="text-red-600 font-medium text-lg">
-                          {displayINRCurrency(product?.productId?.sellingPrice)}
+                          {displayBDCurrency(product?.productId?.sellingPrice)}
                         </p>
                         <p className="text-slate-600 font-semibold text-lg">
-                          {displayINRCurrency(
+                          {displayBDCurrency(
                             product?.productId?.sellingPrice * product?.quantity
                           )}
                         </p>
@@ -202,7 +202,7 @@ const Cart = () => {
 
               <div className="flex items-center justify-between px-4 gap-2 font-medium text-lg text-slate-600">
                 <p>Total Price</p>
-                <p>{displayINRCurrency(totalPrice)}</p>
+                <p>{displayBDCurrency(totalPrice)}</p>
               </div>
 
               <button className="bg-blue-600 p-2 text-white w-full mt-2">

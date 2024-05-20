@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import scrollTop from "../helpers/scrollTop";
-import displayINRCurrency from "../helpers/displayCurrency";
+import displayBDCurrency from "../helpers/displayCurrency";
 import Context from "../context";
 import addToCart from "../helpers/addToCart";
 import { Link } from "react-router-dom";
@@ -55,11 +55,11 @@ const VerticalCard = ({ loading, data = [] }) => {
                   </p>
                   <div className="flex gap-3">
                     <p className="text-red-600 font-medium">
-                      {displayINRCurrency(product?.sellingPrice)}
+                      {displayBDCurrency(product?.sellingPrice)}
                     </p>
                     {product?.discount && (
                       <p className="text-slate-500 line-through">
-                        {displayINRCurrency(product?.price)}
+                        {displayBDCurrency(product?.price)}
                       </p>
                     )}
                   </div>
