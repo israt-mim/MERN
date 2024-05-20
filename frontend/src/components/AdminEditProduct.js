@@ -17,7 +17,7 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
     productImage: productData?.productImage || [],
     description: productData?.description,
     price: productData?.price,
-    sellingPrice: productData?.sellingPrice,
+    discount: productData?.discount,
   });
   const [openFullScreenImage, setOpenFullScreenImage] = useState(false);
   const [fullScreenImage, setFullScreenImage] = useState("");
