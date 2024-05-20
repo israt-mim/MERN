@@ -155,23 +155,11 @@ const Cart = () => {
                       </p>
                       <div className="flex items-center justify-between">
                         <p className="text-red-600 font-medium text-lg">
-                          {displayINRCurrency(
-                            product?.productId?.discount
-                              ? product?.productId?.sellingPrice -
-                                  (product?.productId?.sellingPrice *
-                                    product?.productId?.discount) /
-                                    100
-                              : product?.productId?.sellingPrice
-                          )}
+                          {displayINRCurrency(product?.productId?.sellingPrice)}
                         </p>
                         <p className="text-slate-600 font-semibold text-lg">
                           {displayINRCurrency(
-                            (product?.productId?.discount
-                              ? product?.productId?.price -
-                                (product?.productId?.price *
-                                  product?.productId?.discount) /
-                                  100
-                              : product?.productId?.price) * product?.quantity
+                            product?.productId?.sellingPrice * product?.quantity
                           )}
                         </p>
                       </div>

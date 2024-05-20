@@ -76,10 +76,7 @@ const CategroyWiseProductDisplay = ({ category, heading }) => {
                     </p>
                     <div className="flex gap-3">
                       <p className="text-red-600 font-medium">
-                        {displayINRCurrency(
-                          product?.price -
-                            (product?.price * product?.discount) / 100
-                        )}
+                        {displayINRCurrency(product?.sellingPrice)}
                       </p>
                       {product?.discount && (
                         <p className="text-slate-500 line-through">

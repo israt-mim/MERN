@@ -100,12 +100,7 @@ const VerticalCardProduct = ({ category, heading }) => {
                     </p>
                     <div className="flex gap-3">
                       <p className="text-red-600 font-medium">
-                        {displayINRCurrency(
-                          product?.discount
-                            ? product?.price -
-                                product?.price * product?.discount
-                            : product?.price
-                        )}
+                        {displayINRCurrency(product?.sellingPrice)}
                       </p>
                       {product?.discount && (
                         <p className="text-slate-500 line-through">

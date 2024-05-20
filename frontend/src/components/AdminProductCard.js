@@ -19,9 +19,7 @@ const AdminProductCard = ({ data, fetchdata }) => {
 
         <div>
           <p className="font-semibold">
-            {displayINRCurrency(
-              data.price - (data.price * data.discount) / 100
-            )}
+            {displayINRCurrency(data.sellingPrice)}
           </p>
 
           <div
