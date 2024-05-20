@@ -60,7 +60,7 @@ const Login = () => {
       <div className="mx-auto container p-4">
         <div className="bg-white p-5 w-full max-w-sm mx-auto">
           <div className="w-20 h-20 mx-auto">
-            <img src={loginIcons} alt="login icons" />
+            <img src={loginIcons} alt="login icons" className="rounded-full" />
           </div>
 
           <form className="pt-6 flex flex-col gap-2" onSubmit={handleSubmit}>

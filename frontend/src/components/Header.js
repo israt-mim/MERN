@@ -21,6 +21,13 @@ const Header = () => {
   const URLSearch = new URLSearchParams(searchInput?.search);
   const searchQuery = URLSearch.getAll("q");
   const [search, setSearch] = useState(searchQuery);
+  const location = useLocation();
+  const currentPath = location.pathname;
+
+  console.log("current path", currentPath.includes("login"));
+
+  const isLogin = currentPath.includes("login");
+  const isSignup = currentPath.includes("sign-up");
 
   const handleLogout = async () => {
     const fetchData = await fetch(SummaryApi.logout_user.url, {
@@ -60,18 +67,20 @@ const Header = () => {
           </Link>
         </div>
 
-        <div className="hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full focus-within:shadow pl-2">
-          <input
-            type="text"
-            placeholder="search product here..."
-            className="w-full outline-none"
-            onChange={handleSearch}
-            value={search}
-          />
-          <div className="text-lg min-w-[50px] h-8 bg-red-600 flex items-center justify-center rounded-r-full text-white">
-            <GrSearch />
+        {!(isLogin || isSignup) && (
+          <div className="hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full focus-within:shadow pl-2">
+            <input
+              type="text"
+              placeholder="Search product here..."
+              className="w-full outline-none"
+              onChange={handleSearch}
+              value={search}
+            />
+            <div className="text-lg min-w-[50px] h-8 bg-red-600 flex items-center justify-center rounded-r-full text-white">
+              <GrSearch />
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="flex items-center gap-7">
           <div className="relative flex justify-center">
