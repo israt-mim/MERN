@@ -17,7 +17,9 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
     productImage: productData?.productImage || [],
     description: productData?.description,
     price: productData?.price,
+    orginalPrice: productData?.orginalPrice,
     discount: productData?.discount,
+    stock: productData?.stock,
   });
   const [openFullScreenImage, setOpenFullScreenImage] = useState(false);
   const [fullScreenImage, setFullScreenImage] = useState("");
@@ -30,6 +32,13 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
       e.nativeEvent.inputType != "deleteContentBackward"
     ) {
       if (parseInt(value) > 100 || parseInt(value) < 0) return;
+    }
+
+    if (
+      (name === "orginalPrice" || name === "price") &&
+      e.nativeEvent.inputType != "deleteContentBackward"
+    ) {
+      if (parseInt(value) < 0) return;
     }
 
     setData((preve) => {
@@ -95,7 +104,7 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
   };
 
   return (
-    <div className="fixed w-full  h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+    <div className="fixed w-full h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center">
       <div className="bg-white p-4 rounded w-full max-w-2xl h-full max-h-[80%] overflow-hidden">
         <div className="flex justify-between items-center pb-3">
           <h2 className="font-bold text-lg">Edit Product</h2>
@@ -212,6 +221,21 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
           </div>
 
           <label htmlFor="price" className="mt-3">
+            Original Price :
+          </label>
+          <input
+            type="number"
+            id="orginalPrice"
+            placeholder="Enter Orginal Price"
+            value={data.orginalPrice}
+            name="orginalPrice"
+            min={0}
+            onChange={handleOnChange}
+            className="p-2 bg-slate-100 border rounded"
+            required
+          />
+
+          <label htmlFor="price" className="mt-3">
             Price :
           </label>
           <input
@@ -226,7 +250,7 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
           />
 
           <label htmlFor="discount" className="mt-3">
-            Discount (%):
+            Discount (%) :
           </label>
           <input
             type="number"
@@ -235,6 +259,21 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
             value={data.discount}
             name="discount"
             max={100}
+            min={0}
+            onChange={handleOnChange}
+            className="p-2 bg-slate-100 border rounded"
+            required
+          />
+
+          <label htmlFor="stock" className="mt-3">
+            Stock :
+          </label>
+          <input
+            type="number"
+            id="stock"
+            placeholder="Enter stock quantity"
+            value={data.stock}
+            name="stock"
             min={0}
             onChange={handleOnChange}
             className="p-2 bg-slate-100 border rounded"

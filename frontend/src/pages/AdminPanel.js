@@ -36,8 +36,11 @@ const AdminPanel = () => {
                  {/***navigation */}       
                 <div>   
                     <nav className='grid p-4'>
+                        <Link to={""} className='px-2 py-1 hover:bg-slate-100'>Overview</Link>
                         <Link to={"all-users"} className='px-2 py-1 hover:bg-slate-100'>All Users</Link>
                         <Link to={"all-products"} className='px-2 py-1 hover:bg-slate-100'>All product</Link>
+                        <Link to={"all-orders"} className='px-2 py-1 hover:bg-slate-100'>All Orders</Link>
+                        <Link to={"deliveryfee"} className='px-2 py-1 hover:bg-slate-100'>Delivery Charge</Link>
                     </nav>
                 </div>  
         </aside>

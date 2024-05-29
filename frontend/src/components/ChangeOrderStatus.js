@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
-import ROLE from '../common/role';
 import { IoMdClose } from 'react-icons/io';
 import SummaryApi from '../common';
 import { toast } from 'react-toastify';
+import ORDER_STATUS from '../common/orderStatus';
 
-const ChangeUserRole = ({ name, email, role, userId, onClose, callFunc }) => {
-    const [userRole, setUserRole] = useState(role);
+const ChangeOrderStatus = ({ orderId, customerName, status, onClose, fetchdata }) => {
+    const [orderStatus, setOrderStatus] = useState(status);
 
     const handleOnChangeSelect = (e) => {
-        setUserRole(e.target.value);
+        setOrderStatus(e.target.value);
     };
 
-    const updateUserRole = async () => {
+    const updateOrderStatus = async () => {
         try {
-            const fetchResponse = await fetch(SummaryApi.updateUser.url, {
-                method: SummaryApi.updateUser.method,
+            const fetchResponse = await fetch(SummaryApi.updateOrder.url, {
+                method: SummaryApi.updateOrder.method,
                 credentials: 'include',
                 headers: {
                     'content-type': 'application/json'
                 },
                 body: JSON.stringify({
-                    userId: userId,
-                    role: userRole
+                    orderId,
+                    orderStatus
                 })
             });
 
@@ -30,11 +30,11 @@ const ChangeUserRole = ({ name, email, role, userId, onClose, callFunc }) => {
             if (responseData.success) {
                 toast.success(responseData.message);
                 onClose();
-                callFunc();
+                fetchdata();
             }
         } catch (error) {
-            console.error('Error updating user role:', error);
-            toast.error('Failed to update user role');
+            console.error('Error updating order status:', error);
+            toast.error('Failed to update order status');
         }
     };
 
@@ -45,22 +45,22 @@ const ChangeUserRole = ({ name, email, role, userId, onClose, callFunc }) => {
                     <IoMdClose className="text-gray-600 w-6 h-6" />
                 </button>
 
-                <h1 className="text-xl font-semibold mb-4">Change User Role</h1>
+                <h1 className="text-xl font-semibold mb-4">Change Order Status</h1>
 
                 <div className="mb-4">
-                    <p className="font-semibold">Name:</p>
-                    <p>{name}</p>
+                    <p className="font-semibold">Order Id:</p>
+                    <p>{orderId}</p>
                 </div>
 
                 <div className="mb-4">
-                    <p className="font-semibold">Email:</p>
-                    <p>{email}</p>
+                    <p className="font-semibold">Ordered By:</p>
+                    <p>{customerName}</p>
                 </div>
 
                 <div className="mb-4 flex items-center justify-between">
-                    <p className="font-semibold">Role:</p>
-                    <select className="border px-4 py-1" value={userRole} onChange={handleOnChangeSelect}>
-                        {Object.values(ROLE).map((el) => (
+                    <p className="font-semibold">Status:</p>
+                    <select className="border px-4 py-1" value={orderStatus} onChange={handleOnChangeSelect}>
+                        {Object.values(ORDER_STATUS).map((el) => (
                             <option value={el} key={el}>
                                 {el}
                             </option>
@@ -70,13 +70,13 @@ const ChangeUserRole = ({ name, email, role, userId, onClose, callFunc }) => {
 
                 <button
                     className="w-full py-2 px-4 bg-red-600 text-white rounded hover:bg-red-700 focus:outline-none"
-                    onClick={updateUserRole}
+                    onClick={updateOrderStatus}
                 >
-                    Change Role
+                    Change Status
                 </button>
             </div>
         </div>
     );
 };
 
-export default ChangeUserRole;
+export default ChangeOrderStatus;

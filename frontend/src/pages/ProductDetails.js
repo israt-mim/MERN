@@ -18,7 +18,9 @@ const ProductDetails = () => {
     description: "",
     price: "",
     sellingPrice: "",
+    stock: 0,
   });
+  const [quantity, setQuantity] = useState(0);
   const params = useParams();
   const [loading, setLoading] = useState(true);
   const productImageListLoading = new Array(4).fill(null);
@@ -52,8 +54,6 @@ const ProductDetails = () => {
     setActiveImage(dataReponse?.data?.productImage[0]);
   };
 
-  console.log("data", data);
-
   useEffect(() => {
     fetchProductDetails();
   }, [params]);
@@ -84,14 +84,26 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = async (e, id) => {
-    await addToCart(e, id);
+    await addToCart(e, id, quantity);
     fetchUserAddToCart();
   };
 
   const handleBuyProduct = async (e, id) => {
-    await addToCart(e, id);
+    await addToCart(e, id, quantity);
     fetchUserAddToCart();
     navigate("/cart");
+  };
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  const increaseQty = () => {
+    setQuantity(Math.min(quantity + 1, data?.stock ?? 0));
+  };
+
+  const decraseQty = () => {
+    setQuantity(Math.max(quantity - 1, 0));
   };
 
   return (
@@ -106,7 +118,6 @@ const ProductDetails = () => {
               onMouseMove={handleZoomImage}
               onMouseLeave={handleLeaveImageZoom}
             />
-
             {/**product zoom */}
             {zoomImage && (
               <div className="hidden lg:block absolute min-w-[500px] overflow-hidden min-h-[400px] bg-slate-200 p-1 -right-[510px] top-0">
@@ -115,9 +126,8 @@ const ProductDetails = () => {
                   style={{
                     background: `url(${activeImage})`,
                     backgroundRepeat: "no-repeat",
-                    backgroundPosition: `${zoomImageCoordinate.x * 100}% ${
-                      zoomImageCoordinate.y * 100
-                    }% `,
+                    backgroundPosition: `${zoomImageCoordinate.x * 100}% ${zoomImageCoordinate.y * 100
+                      }% `,
                   }}
                 ></div>
               </div>
@@ -184,13 +194,9 @@ const ProductDetails = () => {
           </div>
         ) : (
           <div className="flex flex-col gap-1">
-            <p className="bg-red-200 text-red-600 px-2 rounded-full inline-block w-fit">
-              {data?.brandName}
-            </p>
             <h2 className="text-2xl lg:text-4xl font-medium">
               {data?.productName}
             </h2>
-            <p className="capitalize text-slate-400">{data?.category}</p>
 
             <div className="text-red-600 flex items-center gap-1">
               <FaStar />
@@ -198,6 +204,18 @@ const ProductDetails = () => {
               <FaStar />
               <FaStar />
               <FaStarHalf />
+            </div>
+
+            <div className="flex gap-2 mt-2">
+              <p className="bg-slate-300 text-red-600 px-4 rounded-full inline-block w-fit">
+                Brand: {capitalizeFirstLetter(data?.brandName ?? '')}
+              </p>
+              <p className="bg-slate-300 text-red-600 px-4 rounded-full inline-block w-fit">
+                Category: {capitalizeFirstLetter(data?.category ?? '')}
+              </p>
+              <p className="bg-slate-300 text-red-600 px-4 rounded-full inline-block w-fit">
+                Available Item: {data?.stock}
+              </p>
             </div>
 
             <div className="flex items-center gap-2 text-2xl lg:text-3xl font-medium my-1">
@@ -209,25 +227,58 @@ const ProductDetails = () => {
               </p>
             </div>
 
-            <div className="flex items-center gap-3 my-2">
+            {!data?.stock ? (
               <button
-                className="border-2 border-red-600 rounded px-3 py-1 min-w-[120px] text-red-600 font-medium hover:bg-red-600 hover:text-white"
-                onClick={(e) => handleBuyProduct(e, data?._id)}
+                className={`text-sm text-white px-3 py-0.5 rounded-full bg-slate-400 w-fit`}
+                disabled={true}
               >
-                Buy
+                Out of Stock
               </button>
-              <button
-                className="border-2 border-red-600 rounded px-3 py-1 min-w-[120px] font-medium text-white bg-red-600 hover:text-red-600 hover:bg-white"
-                onClick={(e) => handleAddToCart(e, data?._id)}
-              >
-                Add To Cart
-              </button>
-            </div>
+            ) : (
+              <>
+                <div className="flex items-center gap-3 mt-1">
+                  <button
+                    className="border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded "
+                    onClick={decraseQty}
+                  >
+                    -
+                  </button>
+                  <span>{quantity}</span>
+                  <button
+                    className="border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded "
+                    onClick={increaseQty}
+                  >
+                    +
+                  </button>
+                </div>
 
-            <div>
-              <p className="text-slate-600 font-medium my-1">Description : </p>
-              <p>{data?.description}</p>
-            </div>
+                <div className="flex items-center gap-3 my-2">
+                  <button
+                    className={`border-2 rounded px-3 py-1 min-w-[120px] text-red-600 font-medium  ${quantity ? 'border-red-600 hover:bg-red-600 hover:text-white' : 'bg-slate-400 text-white'}`}
+                    disabled={quantity === 0}
+                    onClick={(e) => handleBuyProduct(e, data?._id)}
+                  >
+                    Buy
+                  </button>
+                  <button
+                    className={`border-2 rounded px-3 py-1 min-w-[120px] font-medium text-white ${quantity ? 'border-red-600 bg-red-600 hover:bg-white hover:text-red-600' : 'bg-slate-400 text-white'}`}
+                    disabled={quantity === 0}
+                    onClick={(e) => handleAddToCart(e, data?._id)}
+                  >
+                    Add To Cart
+                  </button>
+                </div>
+              </>
+            )}
+
+
+            {data?.description && (
+              <div>
+                <p className="text-slate-600 font-medium my-1">Description : </p>
+                <p>{data?.description}</p>
+              </div>
+            )}
+
           </div>
         )}
       </div>

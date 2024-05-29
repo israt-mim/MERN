@@ -15,8 +15,10 @@ const UploadProduct = ({ onClose, fetchData }) => {
     category: "",
     productImage: [],
     description: "",
+    orginalPrice: "",
     price: "",
     discount: "",
+    stock: 0,
   });
   const [openFullScreenImage, setOpenFullScreenImage] = useState(false);
   const [fullScreenImage, setFullScreenImage] = useState("");
@@ -29,6 +31,13 @@ const UploadProduct = ({ onClose, fetchData }) => {
       e.nativeEvent.inputType != "deleteContentBackward"
     ) {
       if (parseInt(value) > 100 || parseInt(value) < 0) return;
+    }
+
+    if (
+      (name === "orginalPrice" || name === "price") &&
+      e.nativeEvent.inputType != "deleteContentBackward"
+    ) {
+      if (parseInt(value) < 0) return;
     }
 
     setData((prev) => {
@@ -70,6 +79,8 @@ const UploadProduct = ({ onClose, fetchData }) => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // const isProfitNegative = checkProfitIsNegative
 
     const response = await fetch(SummaryApi.uploadProduct.url, {
       method: SummaryApi.uploadProduct.method,
@@ -211,6 +222,21 @@ const UploadProduct = ({ onClose, fetchData }) => {
           </div>
 
           <label htmlFor="price" className="mt-3">
+            Original Price :
+          </label>
+          <input
+            type="number"
+            id="orginalPrice"
+            placeholder="Enter Orginal Price"
+            value={data.orginalPrice}
+            name="orginalPrice"
+            min={0}
+            onChange={handleOnChange}
+            className="p-2 bg-slate-100 border rounded"
+            required
+          />
+
+          <label htmlFor="price" className="mt-3">
             Price :
           </label>
           <input
@@ -220,12 +246,13 @@ const UploadProduct = ({ onClose, fetchData }) => {
             value={data.price}
             name="price"
             onChange={handleOnChange}
+            min={0}
             className="p-2 bg-slate-100 border rounded"
             required
           />
 
           <label htmlFor="discount" className="mt-3">
-            Discount (%):
+            Discount (%) :
           </label>
           <input
             type="number"
@@ -234,6 +261,21 @@ const UploadProduct = ({ onClose, fetchData }) => {
             value={data.discount}
             name="discount"
             max={100}
+            min={0}
+            onChange={handleOnChange}
+            className="p-2 bg-slate-100 border rounded"
+            required
+          />
+
+          <label htmlFor="stock" className="mt-3">
+            Stock :
+          </label>
+          <input
+            type="number"
+            id="stock"
+            placeholder="Enter stock quantity"
+            value={data.stock}
+            name="stock"
             min={0}
             onChange={handleOnChange}
             className="p-2 bg-slate-100 border rounded"

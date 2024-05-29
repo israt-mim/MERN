@@ -54,11 +54,12 @@ function App() {
           fetchUserAddToCart
       }}>
         <ToastContainer 
-          position='top-center'
+          position='top-right'
+          style={{width: '400px'}}
         />
         
         <Header/>
-        <main className='min-h-[calc(100vh-120px)] pt-16'>
+        <main className='min-h-[100vh] pt-16'>
           <Outlet/>
         </main>
         <Footer/>

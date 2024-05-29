@@ -11,6 +11,12 @@ import CategoryProduct from '../pages/CategoryProduct'
 import ProductDetails from '../pages/ProductDetails'
 import Cart from '../pages/Cart'
 import SearchProduct from '../pages/SearchProduct'
+import PaymentSuccessPage from '../pages/PaymentSuccess'
+import PaymentFailedPage from '../pages/PaymentFailed'
+import AllOrders from '../pages/AllOrders'
+import DeliveryFee from '../pages/DeliveryFee'
+import AdminOverview from '../pages/AdminOverview'
+import MyOrders from '../pages/MyOrder'
 
 const router = createBrowserRouter([
     {
@@ -34,6 +40,10 @@ const router = createBrowserRouter([
                 element : <SignUp/>
             },
             {
+                path : "my-orders",
+                element : <MyOrders />
+            },
+            {
                 path : "product-category",
                 element : <CategoryProduct/>
             },
@@ -50,9 +60,21 @@ const router = createBrowserRouter([
                 element : <SearchProduct/>
             },
             {
+                path : "payment-success",
+                element : <PaymentSuccessPage/>
+            },
+            {
+                path : "payment-failed",
+                element : <PaymentFailedPage/>
+            },
+            {
                 path : "admin-panel",
                 element : <AdminPanel/>,
                 children : [
+                    {
+                        path : "",
+                        element : <AdminOverview/>
+                    },
                     {
                         path : "all-users",
                         element : <AllUsers/>
@@ -60,6 +82,14 @@ const router = createBrowserRouter([
                     {
                         path : "all-products",
                         element : <AllProducts/>
+                    },
+                    {
+                        path : "all-orders",
+                        element : <AllOrders/>
+                    },
+                    {
+                        path : "deliveryFee",
+                        element : <DeliveryFee/>
                     }
                 ]
             },

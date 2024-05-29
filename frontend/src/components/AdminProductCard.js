@@ -1,33 +1,38 @@
 import React, { useState } from "react";
-import { MdModeEditOutline } from "react-icons/md";
+import { MdDelete, MdModeEditOutline } from "react-icons/md";
 import AdminEditProduct from "./AdminEditProduct";
 import displayBDCurrency from "../helpers/displayCurrency";
+import AdminDeleteProduct from "./AdminDeleteProduct";
 
 const AdminProductCard = ({ data, fetchdata }) => {
   const [editProduct, setEditProduct] = useState(false);
+  const [deleteProduct, setDeleteProduct] = useState(false);
 
   return (
-    <div className="bg-white p-4 rounded ">
-      <div className="w-40">
-        <div className="w-32 h-32 flex justify-center items-center">
+    <div className="bg-gray-100 p-4 rounded-lg shadow-md">
+      <div className="flex flex-col items-center">
+        <div className="w-32 h-40 overflow-hidden rounded-lg border border-gray-200 shadow-sm">
           <img
             src={data?.productImage[0]}
-            className="mx-auto object-fill h-full"
+            alt={data.productName}
+            className="object-fit w-full h-full"
           />
         </div>
-        <h1 className="text-ellipsis line-clamp-2">{data.productName}</h1>
-
-        <div>
-          <p className="font-semibold">
-            {displayBDCurrency(data.sellingPrice)}
-          </p>
-
-          <div
-            className="w-fit ml-auto p-2 bg-green-100 hover:bg-green-600 rounded-full hover:text-white cursor-pointer"
+        <h1 className="text-lg font-semibold mt-4 mb-2">{data.productName}</h1>
+        <p className="text-gray-700 mb-2">{displayBDCurrency(data.sellingPrice)}</p>
+        <div className="flex items-center justify-center">
+          <button
+            className="flex items-center justify-center w-8 h-8 bg-green-500 text-white rounded-full hover:bg-green-600 focus:outline-none"
             onClick={() => setEditProduct(true)}
           >
             <MdModeEditOutline />
-          </div>
+          </button>
+          <button
+            className="flex items-center justify-center w-8 h-8 bg-red-500 text-white rounded-full hover:bg-red-600 ml-2 focus:outline-none"
+            onClick={() => setDeleteProduct(true)}
+          >
+            <MdDelete />
+          </button>
         </div>
       </div>
 
@@ -35,6 +40,14 @@ const AdminProductCard = ({ data, fetchdata }) => {
         <AdminEditProduct
           productData={data}
           onClose={() => setEditProduct(false)}
+          fetchdata={fetchdata}
+        />
+      )}
+
+      {deleteProduct && (
+        <AdminDeleteProduct
+          productData={data}
+          onClose={() => setDeleteProduct(false)}
           fetchdata={fetchdata}
         />
       )}
